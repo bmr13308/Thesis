@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: GatewayService
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders:
+              - content-type
+              - Authorization
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+      routes:
+        - id: FollowerService
+          uri: lb://FollowerService
+          predicates:
+            - Path=/FollowService/**
+          filters: 
+            - CustomFilter
+        - id: FeedService
+          uri: lb://FeedService
+          predicates:
+            - Path=/FeedService/**
+          filters: 
+            - CustomFilter
+        - id: PostService
+          uri: lb://PostService
+          predicates:
+            - Path=/PostService/**
+          filters: 
+            - CustomFilter
+        - id: ProfilesService
+          uri: lb://ProfilesService
+          predicates:
+            - Path=/ProfileService/**
+          filters: 
+            - CustomFilter
+          
+        - id: AuthenticationService
+          uri: lb://AuthenticationService
+          predicates:
+            - Path=/Auth/**
+
+
+      
+
+ 
+server:
+  port: 8989
+
